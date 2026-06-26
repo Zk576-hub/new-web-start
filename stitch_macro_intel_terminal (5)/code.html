@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Macro Terminal - Copilot</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#d8e2ff",
+                        "on-secondary-fixed-variant": "#005236",
+                        "inverse-surface": "#e5e2e3",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "on-error-container": "#ffdad6",
+                        "surface-container": "#201f20",
+                        "secondary-container": "#00a572",
+                        "on-surface-variant": "#c1c6d7",
+                        "primary": "#adc6ff",
+                        "on-secondary-fixed": "#002113",
+                        "outline-variant": "#414755",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "background": "#131314",
+                        "tertiary-container": "#ca8100",
+                        "on-surface": "#e5e2e3",
+                        "on-tertiary-container": "#3e2400",
+                        "on-primary-fixed": "#001a41",
+                        "surface-container-high": "#2a2a2b",
+                        "outline": "#8b90a0",
+                        "secondary-fixed": "#6ffbbe",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-primary": "#002e69",
+                        "on-tertiary": "#472a00",
+                        "on-primary-container": "#00285c",
+                        "inverse-on-surface": "#313031",
+                        "surface-container-low": "#1c1b1c",
+                        "surface": "#131314",
+                        "on-secondary": "#003824",
+                        "secondary-fixed-dim": "#4edea3",
+                        "surface-variant": "#353436",
+                        "surface-tint": "#adc6ff",
+                        "surface-container-highest": "#353436",
+                        "tertiary-fixed": "#ffddb8",
+                        "tertiary": "#ffb95f",
+                        "secondary": "#4edea3",
+                        "on-secondary-container": "#00311f",
+                        "primary-container": "#4b8eff",
+                        "inverse-primary": "#005bc1",
+                        "on-error": "#690005",
+                        "surface-bright": "#3a393a",
+                        "error-container": "#93000a",
+                        "on-tertiary-fixed": "#2a1700",
+                        "on-background": "#e5e2e3",
+                        "surface-container-lowest": "#0e0e0f",
+                        "surface-dim": "#131314",
+                        "on-primary-fixed-variant": "#004493",
+                        "error": "#ffb4ab"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1600px",
+                        "margin-desktop": "24px",
+                        "margin-mobile": "16px",
+                        "gutter": "12px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-sm": ["Hanken Grotesk"],
+                        "label-xs": ["Inter"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "data-mono-lg": ["JetBrains Mono"],
+                        "data-mono-md": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "label-xs": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["36px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-mono-lg": ["18px", { "lineHeight": "1", "fontWeight": "500" }],
+                        "data-mono-md": ["14px", { "lineHeight": "1", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #414755;
+            border-radius: 4px;
+        }
+        .glass-panel {
+            background: rgba(28, 27, 28, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(139, 144, 160, 0.15);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md h-screen overflow-hidden flex flex-col md:flex-row">
+<!-- NavigationDrawer (Desktop) -->
+<nav class="hidden md:flex flex-col h-screen w-64 border-r border-outline-variant bg-surface-container-lowest sticky top-0 flex-shrink-0 z-50">
+<div class="p-4 border-b border-outline-variant flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-headline-sm">
+                MT
+            </div>
+<div>
+<h1 class="font-headline-sm text-headline-sm text-primary">Macro Terminal</h1>
+<p class="font-label-xs text-label-xs text-on-surface-variant">Lead Strategist</p>
+</div>
+</div>
+<div class="px-4 py-2 text-on-surface-variant font-label-xs text-label-xs flex justify-between">
+<span>VERSION</span>
+<span class="font-data-mono-md">v2.4.0-STABLE</span>
+</div>
+<ul class="flex flex-col gap-1 mt-4 flex-grow">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+<span class="font-label-xs text-label-xs">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">assessment</span>
+<span class="font-label-xs text-label-xs">Weekly Report</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container border-r-2 border-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">insights</span>
+<span class="font-label-xs text-label-xs">Asset Research</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">analytics</span>
+<span class="font-label-xs text-label-xs">Macro Pulse</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">folder_open</span>
+<span class="font-label-xs text-label-xs">Document Vault</span>
+</a>
+</li>
+</ul>
+<ul class="flex flex-col gap-1 mb-4 border-t border-outline-variant pt-2">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+<span class="font-label-xs text-label-xs">Settings</span>
+</a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-grow flex flex-col h-full overflow-hidden relative">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center px-4 w-full h-14 sticky top-0 z-40 bg-surface/80 backdrop-blur-xl border-b border-surface-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container font-bold" style="font-variation-settings: 'FILL' 1;">terminal</span>
+<span class="font-data-mono-md text-data-mono-md text-primary-container font-bold tracking-tight">MACRO COPILOT ENGAGED</span>
+</div>
+<button class="font-label-xs text-label-xs text-on-surface-variant hover:text-primary transition-colors hover:bg-white/5 px-3 py-1.5 rounded-full border border-surface-variant">
+                LIVE FEED
+            </button>
+</header>
+<!-- Copilot Chat Interface -->
+<main class="flex-grow flex flex-col lg:flex-row overflow-hidden bg-background">
+<!-- Chat Area -->
+<div class="flex-grow flex flex-col h-full max-w-4xl mx-auto w-full overflow-hidden">
+<!-- Chat History -->
+<div class="flex-grow overflow-y-auto p-4 custom-scrollbar flex flex-col gap-6">
+<!-- Date Separator -->
+<div class="flex items-center justify-center w-full my-2">
+<div class="h-px bg-surface-variant flex-grow"></div>
+<span class="px-4 font-data-mono-md text-data-mono-md text-outline-variant tracking-wider">SESSION: REQ-0924</span>
+<div class="h-px bg-surface-variant flex-grow"></div>
+</div>
+<!-- User Message -->
+<div class="flex flex-col items-end gap-1">
+<div class="glass-panel text-on-surface rounded-2xl rounded-tr-sm px-5 py-4 max-w-[85%]">
+<p class="font-body-md text-body-md leading-relaxed">Why did gold fall today? Look at the DXY correlation.</p>
+</div>
+<span class="font-data-mono-md text-[10px] text-outline mr-2 opacity-70">10:14 AM</span>
+</div>
+<!-- AI Message with Component -->
+<div class="flex flex-col items-start gap-1 w-full">
+<div class="glass-panel text-on-surface rounded-2xl rounded-tl-sm px-5 py-5 w-full max-w-[95%] relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary-container shadow-[0_0_8px_rgba(75,142,255,0.5)]"></div>
+<div class="flex items-center gap-2 mb-4 pb-3 border-b border-surface-variant/50">
+<span class="material-symbols-outlined text-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<span class="font-label-xs text-label-xs text-primary-container tracking-wider">COPILOT ANALYSIS</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-5 leading-relaxed">
+                                Gold (XAU) experienced a <span class="text-error font-data-mono-md">-1.24%</span> decline today, primarily driven by a stronger US Dollar and unexpected economic data. The Dollar Index (DXY) surged above <span class="text-secondary font-data-mono-md">104.50</span> following stronger-than-expected retail sales, prompting a re-pricing of Fed rate cut probabilities.
+                            </p>
+<!-- Embedded Data Widget -->
+<div class="bg-surface-container-lowest/80 border border-surface-variant rounded-xl p-4 mb-4">
+<div class="flex justify-between items-center mb-3">
+<span class="font-label-xs text-label-xs text-outline tracking-wide">XAU/USD vs DXY (Intraday)</span>
+<span class="material-symbols-outlined text-outline text-sm">monitoring</span>
+</div>
+<div class="h-32 w-full bg-surface-container/30 rounded-lg relative overflow-hidden flex items-end border border-surface-variant/50">
+<!-- Simplified Chart Representation using CSS -->
+<div class="absolute bottom-0 left-0 w-full h-px bg-outline-variant/20"></div>
+<div class="absolute bottom-1/4 left-0 w-full h-px bg-outline-variant/10 border-dashed border-t border-outline-variant/20"></div>
+<div class="absolute bottom-2/4 left-0 w-full h-px bg-outline-variant/10 border-dashed border-t border-outline-variant/20"></div>
+<div class="absolute bottom-3/4 left-0 w-full h-px bg-outline-variant/10 border-dashed border-t border-outline-variant/20"></div>
+<div class="w-full flex items-end justify-between px-2 h-full pb-0 opacity-80 z-10">
+<div class="w-2 bg-secondary/30 hover:bg-secondary/50 transition-colors h-[30%]"></div>
+<div class="w-2 bg-secondary/30 hover:bg-secondary/50 transition-colors h-[40%]"></div>
+<div class="w-2 bg-secondary/30 hover:bg-secondary/50 transition-colors h-[35%]"></div>
+<div class="w-2 bg-error/30 hover:bg-error/50 transition-colors h-[20%]"></div>
+<div class="w-2 bg-error/30 hover:bg-error/50 transition-colors h-[15%]"></div>
+<div class="w-2 bg-error/30 hover:bg-error/50 transition-colors h-[10%]"></div>
+<div class="w-2 bg-error/30 hover:bg-error/50 transition-colors h-[25%]"></div>
+</div>
+<!-- Simulated Line Chart -->
+<svg class="absolute inset-0 h-full w-full z-20 drop-shadow-md" preserveaspectratio="none" viewbox="0 0 100 100">
+<!-- XAU Line -->
+<polyline fill="none" points="0,70 15,60 30,65 45,80 60,85 75,90 90,75 100,80" stroke="#ca8100" stroke-width="2" vector-effect="non-scaling-stroke"></polyline>
+<circle cx="90" cy="75" fill="#ca8100" r="1.5"></circle>
+<!-- DXY Line -->
+<polyline fill="none" points="0,30 15,40 30,35 45,20 60,15 75,10 90,25 100,20" stroke="#4b8eff" stroke-dasharray="3 3" stroke-width="2" vector-effect="non-scaling-stroke"></polyline>
+<circle cx="90" cy="25" fill="#4b8eff" r="1.5"></circle>
+</svg>
+</div>
+<div class="flex justify-between mt-3 font-data-mono-md text-[11px]">
+<div class="flex items-center gap-1.5"><div class="w-2.5 h-2.5 rounded-full bg-tertiary-container shadow-[0_0_4px_rgba(202,129,0,0.5)]"></div><span class="text-tertiary-container">XAU -1.24%</span></div>
+<div class="flex items-center gap-1.5"><div class="w-2.5 h-2.5 rounded-full bg-primary-container shadow-[0_0_4px_rgba(75,142,255,0.5)]"></div><span class="text-primary-container">DXY +0.65%</span></div>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 leading-relaxed">
+                                The negative correlation remains strong. Implication: Unless PCE data on Friday shows significant disinflation, XAU support at 2350 may be tested.
+                            </p>
+</div>
+<span class="font-data-mono-md text-[10px] text-outline ml-2 opacity-70">10:15 AM</span>
+</div>
+<!-- User Message -->
+<div class="flex flex-col items-end gap-1 mt-4">
+<div class="glass-panel text-on-surface rounded-2xl rounded-tr-sm px-5 py-4 max-w-[85%]">
+<p class="font-body-md text-body-md leading-relaxed">Summarize latest CPI implications for the tech sector.</p>
+</div>
+<span class="font-data-mono-md text-[10px] text-outline mr-2 opacity-70">10:18 AM</span>
+</div>
+<!-- AI Message -->
+<div class="flex flex-col items-start gap-1 w-full">
+<div class="glass-panel text-on-surface rounded-2xl rounded-tl-sm px-5 py-5 w-full max-w-[95%] relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary-container shadow-[0_0_8px_rgba(75,142,255,0.5)]"></div>
+<div class="flex items-center gap-2 mb-4 pb-3 border-b border-surface-variant/50">
+<span class="material-symbols-outlined text-primary-container text-sm" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<span class="font-label-xs text-label-xs text-primary-container tracking-wider">COPILOT ANALYSIS</span>
+</div>
+<div class="space-y-5">
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                                    The latest Core CPI print (<span class="text-secondary font-data-mono-md">0.3% MoM</span> vs expected 0.4%) presents a mildly bullish structural backdrop for Tech (XLK), though nuanced by sub-sector.
+                                </p>
+<!-- Structured Data Box -->
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-surface-container-lowest/80 p-3 rounded-xl border border-surface-variant hover:border-outline-variant transition-colors">
+<span class="block font-label-xs text-label-xs text-outline mb-1.5 tracking-wide">MEGA-CAP GROWTH</span>
+<span class="font-data-mono-md text-secondary block text-sm">BULLISH</span>
+<span class="text-xs text-on-surface-variant mt-2 block leading-snug">Lower yields support longer-duration cash flow valuations.</span>
+</div>
+<div class="bg-surface-container-lowest/80 p-3 rounded-xl border border-surface-variant hover:border-outline-variant transition-colors">
+<span class="block font-label-xs text-label-xs text-outline mb-1.5 tracking-wide">SEMI-CAP EQUIP</span>
+<span class="font-data-mono-md text-tertiary-container block text-sm">NEUTRAL</span>
+<span class="text-xs text-on-surface-variant mt-2 block leading-snug">More sensitive to capex cycles than immediate rate paths.</span>
+</div>
+</div>
+<ul class="list-none text-on-surface-variant font-body-md text-sm space-y-2 ml-1">
+<li class="flex items-start gap-2"><span class="text-primary-container mt-0.5">•</span> 10Y Yield compressed by 8bps, easing discount rate pressure.</li>
+<li class="flex items-start gap-2"><span class="text-primary-container mt-0.5">•</span> Forward P/E expansion for top 5 constituents likely constrained by upcoming earnings.</li>
+</ul>
+</div>
+</div>
+<span class="font-data-mono-md text-[10px] text-outline ml-2 opacity-70">10:18 AM</span>
+</div>
+<!-- Loading State Indicator -->
+<div class="flex items-center gap-2 text-outline-variant ml-3 opacity-60 mt-2">
+<span class="material-symbols-outlined animate-spin text-sm">autorenew</span>
+<span class="font-data-mono-md text-[10px] tracking-wide">Processing macro models...</span>
+</div>
+</div>
+<!-- Input Area -->
+<div class="p-4 bg-surface/90 backdrop-blur-md border-t border-surface-variant relative z-10">
+<div class="relative flex items-center">
+<input class="w-full bg-surface-container-lowest border border-surface-variant rounded-xl py-3.5 pl-4 pr-12 text-on-surface font-body-md focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all placeholder-outline-variant shadow-sm" placeholder="Query terminal database or ask for analysis..." type="text"/>
+<button class="absolute right-2 p-2 text-primary-container hover:bg-primary-container/10 rounded-lg transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+<div class="flex gap-2.5 mt-3 overflow-x-auto custom-scrollbar pb-1">
+<button class="font-data-mono-md text-[11px] border border-surface-variant bg-surface-container-low text-on-surface-variant px-3 py-1.5 rounded-full hover:bg-surface-variant hover:text-on-surface transition-colors whitespace-nowrap">/chart SPX</button>
+<button class="font-data-mono-md text-[11px] border border-surface-variant bg-surface-container-low text-on-surface-variant px-3 py-1.5 rounded-full hover:bg-surface-variant hover:text-on-surface transition-colors whitespace-nowrap">/correlate XAU DXY</button>
+<button class="font-data-mono-md text-[11px] border border-surface-variant bg-surface-container-low text-on-surface-variant px-3 py-1.5 rounded-full hover:bg-surface-variant hover:text-on-surface transition-colors whitespace-nowrap">/summarize FOMC</button>
+</div>
+</div>
+</div>
+<!-- Contextual Sidebar (Desktop only) -->
+<div class="hidden xl:flex flex-col w-80 glass-panel border-l border-surface-variant p-5 overflow-y-auto custom-scrollbar gap-5 shrink-0 bg-surface/30">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-1 flex items-center gap-2">
+<span class="material-symbols-outlined text-outline-variant text-lg">memory</span>
+            Active Context
+        </h3>
+<!-- Market Pulse Widget -->
+<div class="border border-surface-variant rounded-xl bg-surface-container-lowest/50 p-4 shadow-sm">
+<h4 class="font-label-xs text-label-xs text-outline mb-4 tracking-wider flex justify-between items-center">MARKET PULSE <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span></h4>
+<div class="space-y-3">
+<div class="flex justify-between items-center group cursor-default">
+<span class="font-data-mono-md text-data-mono-md text-on-surface group-hover:text-primary-container transition-colors">SPX</span>
+<span class="font-data-mono-md text-data-mono-md text-secondary">5,124.30 <span class="text-[10px] ml-1 bg-secondary/10 px-1 py-0.5 rounded text-secondary">+0.4%</span></span>
+</div>
+<div class="flex justify-between items-center group cursor-default">
+<span class="font-data-mono-md text-data-mono-md text-on-surface group-hover:text-primary-container transition-colors">NDX</span>
+<span class="font-data-mono-md text-data-mono-md text-secondary">18,042.15 <span class="text-[10px] ml-1 bg-secondary/10 px-1 py-0.5 rounded text-secondary">+0.7%</span></span>
+</div>
+<div class="flex justify-between items-center group cursor-default">
+<span class="font-data-mono-md text-data-mono-md text-on-surface group-hover:text-primary-container transition-colors">DXY</span>
+<span class="font-data-mono-md text-data-mono-md text-primary-container">104.65 <span class="text-[10px] ml-1 bg-primary-container/10 px-1 py-0.5 rounded text-primary-container">+0.6%</span></span>
+</div>
+<div class="flex justify-between items-center group cursor-default">
+<span class="font-data-mono-md text-data-mono-md text-on-surface group-hover:text-primary-container transition-colors">US10Y</span>
+<span class="font-data-mono-md text-data-mono-md text-error">4.28% <span class="text-[10px] ml-1 bg-error/10 px-1 py-0.5 rounded text-error">+2bps</span></span>
+</div>
+</div>
+</div>
+<!-- Related Documents Widget -->
+<div class="border border-surface-variant rounded-xl bg-surface-container-lowest/50 p-4 shadow-sm">
+<h4 class="font-label-xs text-label-xs text-outline mb-4 tracking-wider">REFERENCED DOCS</h4>
+<ul class="space-y-3.5">
+<li class="flex gap-3 items-start cursor-pointer hover:bg-surface-variant/50 p-2 -mx-2 rounded-lg transition-colors group">
+<span class="material-symbols-outlined text-outline-variant text-lg mt-0.5 group-hover:text-primary-container transition-colors">description</span>
+<div>
+<span class="block font-body-md text-sm text-on-surface leading-tight group-hover:text-on-surface transition-colors">US Retail Sales Report</span>
+<span class="font-data-mono-md text-[10px] text-outline-variant mt-1 block">DOC-24A-991 • Today</span>
+</div>
+</li>
+<li class="flex gap-3 items-start cursor-pointer hover:bg-surface-variant/50 p-2 -mx-2 rounded-lg transition-colors group">
+<span class="material-symbols-outlined text-outline-variant text-lg mt-0.5 group-hover:text-primary-container transition-colors">description</span>
+<div>
+<span class="block font-body-md text-sm text-on-surface leading-tight group-hover:text-on-surface transition-colors">CPI Release Details</span>
+<span class="font-data-mono-md text-[10px] text-outline-variant mt-1 block">DOC-24A-882 • Yesterday</span>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile) -->
+<nav class="fixed bottom-0 w-full z-50 lg:hidden flex justify-around items-center h-16 pb-safe bg-surface/90 backdrop-blur-xl border-t border-surface-variant shadow-[0_-4px_24px_rgba(0,0,0,0.4)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors w-16" href="#">
+<span class="material-symbols-outlined text-[22px]">grid_view</span>
+<span class="font-label-xs text-[10px] mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary-container bg-primary-container/10 rounded-xl px-5 py-1.5 w-auto" href="#">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<span class="font-label-xs text-[10px] mt-0.5 font-bold">Copilot</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors w-16" href="#">
+<span class="material-symbols-outlined text-[22px]">query_stats</span>
+<span class="font-label-xs text-[10px] mt-1">Research</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors w-16" href="#">
+<span class="material-symbols-outlined text-[22px]">inventory_2</span>
+<span class="font-label-xs text-[10px] mt-1">Vault</span>
+</a>
+</nav>
+</body></html>
